@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "https://budget-expense-tracker-r2jk.onrender.com/" || "http://localhost:5000/api/";
+const API_URL = "https://budget-expense-tracker-r2jk.onrender.com/api/auth/" || "http://localhost:5000/api/auth/";
 
 const authService = {
     login: async (userData) => {
@@ -9,7 +9,7 @@ const authService = {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userName', response.data.username);
         }
-        return response.data;
+        return response.data;   
     },
     register: async (userData) => {
         const response = await axios.post(API_URL + 'register', userData);

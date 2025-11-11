@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authService from './authService';
 
-const API_URL = "https://budget-expense-tracker-r2jk.onrender.com/" || "http://localhost:5000/api/budgets/";
+const API_URL = "https://budget-expense-tracker-r2jk.onrender.com/api/budgets/" || "http://localhost:5000/api/budgets/";
 
 const config = () => {
     const token = authService.getToken();
