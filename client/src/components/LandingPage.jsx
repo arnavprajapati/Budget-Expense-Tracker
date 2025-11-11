@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import AuthModal from './AuthModal';
-import landingImage from '../assets/landing-image.jpg';
 
 function LandingPage() {
     const [modalView, setModalView] = useState(null);
@@ -60,10 +59,15 @@ function LandingPage() {
                     </div>
                     <div className="md:flex-1 flex justify-center items-center mt-10 md:mt-0">
                         <img
-                            src={landingImage}
+                            src="https://res.cloudinary.com/dzz1wmydl/image/upload/v1762864750/unnamed_1_dick2v.jpg"
                             alt="Landing Visual"
                             className="w-full max-w-sm md:max-w-lg h-auto object-contain"
+                            width="512"
+                            height="512"
+                            loading="lazy"
+                            decoding="async"
                         />
+
                     </div>
                 </div>
             </div>
