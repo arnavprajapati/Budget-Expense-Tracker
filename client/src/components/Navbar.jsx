@@ -16,7 +16,7 @@ function Navbar() {
                     
                     <Link to={isLoggedIn ? "/dashboard" : "/"} className="flex items-center space-x-2 cursor-pointer">
                         <Wallet className="w-8 h-8 text-[#387ED1]" />
-                        <span className="text-xl font-bold text-gray-900">ExpenseTracker</span>
+                        <span className="text-2xl font-bold text-gray-900">ExpenseTracker</span>
                     </Link>
 
                     {isLoggedIn ? (
