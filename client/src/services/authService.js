@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "https://budget-expense-tracker-r2jk.onrender.com/api/" || "http://localhost:5000/api/";
+const API_URL = "https://budget-expense-tracker-r2jk.onrender.com/" || "http://localhost:5000/api/";
 
 const authService = {
     login: async (userData) => {
