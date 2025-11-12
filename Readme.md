@@ -1,9 +1,9 @@
 
 ---
 
-## 💰 Expense & Budget Tracker (MERN Stack)
+## 💰 Expense & Budget Tracker (MERN Stack + Redux)
 
-A **full-stack web application** built using the **MERN stack (MongoDB, Express.js, React, Node.js)** — designed to help users **plan budgets, track expenses,** and **monitor spending patterns** with ease.
+A **full-stack web application** built using the **MERN stack (MongoDB, Express.js, React, Node.js)** with **Redux** for state management — designed to help users **plan budgets, track expenses,** and **monitor spending patterns** with ease.
 
 ### ✨ Features
 
