@@ -1,11 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 import budgetService from '../../services/budgetService';
 
+// Export existing actions for fetching budgets
 export const budgetsLoading = () => ({ type: 'budgets/budgetsLoading' });
 export const budgetsSuccess = (data) => ({ type: 'budgets/budgetsSuccess', payload: data });
 export const budgetsFailure = (message) => ({ type: 'budgets/budgetsFailure', payload: message });
 
+// --- NEW THUNK FOR FILE UPLOAD (uploadStatementAndParse) ---
+export const uploadStatementAndParse = (file) => async (dispatch) => {
+    try {
+        dispatch(statementParsingLoading());
+        const transactions = await budgetService.uploadStatement(file);
+        dispatch(statementParsingSuccess(transactions));
+    } catch (error) {
+        // Use the error message sent from the backend or a default message
+        const message = error.response?.data?.msg || "Failed to upload or parse statement.";
+        dispatch(statementParsingFailure(message));
+    }
+};
 
+
+// ... existing thunks (fetchBudgets, addBudget, deleteBudget, addExpenseToBudget, deleteExpense) ...
 
 export const fetchBudgets = () => async (dispatch) => {
     try {
@@ -65,6 +80,10 @@ const budgetSlice = createSlice({
         list: [],
         status: 'idle',
         error: null,
+        // --- NEW STATE PROPERTIES FOR STATEMENT PARSING ---
+        parsedTransactions: [],
+        parsingStatus: 'idle', // idle | loading | succeeded | failed
+        parsingError: null,
     },
     reducers: {
         budgetsLoading: (state) => {
@@ -87,8 +106,29 @@ const budgetSlice = createSlice({
         loadBudgets: (state, action) => { 
             state.list = action.payload;
         },
+        // --- NEW REDUCERS FOR STATEMENT PARSING ---
+        statementParsingLoading: (state) => {
+            state.parsingStatus = 'loading';
+            state.parsingError = null;
+        },
+        statementParsingSuccess: (state, action) => {
+            state.parsingStatus = 'succeeded';
+            // Store the transactions returned from the AI/Backend
+            state.parsedTransactions = action.payload; 
+            state.parsingError = null;
+        },
+        statementParsingFailure: (state, action) => {
+            state.parsingStatus = 'failed';
+            state.parsedTransactions = [];
+            state.parsingError = action.payload;
+        },
+        clearParsedTransactions: (state) => { // <-- The clearParsedTransactions action
+            state.parsedTransactions = [];
+            state.parsingStatus = 'idle';
+            state.parsingError = null;
+        },
     },
 });
 
-export const { loadBudgets } = budgetSlice.actions;
+export const { loadBudgets, statementParsingLoading, statementParsingSuccess, statementParsingFailure, clearParsedTransactions } = budgetSlice.actions;
 export default budgetSlice.reducer;

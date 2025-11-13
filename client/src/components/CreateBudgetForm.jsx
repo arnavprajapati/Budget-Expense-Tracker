@@ -2,15 +2,15 @@ import React from 'react';
 import { Wallet } from 'lucide-react';
 
 function CreateBudgetForm({ newBudgetName, setNewBudgetName, newBudgetAmount, setNewBudgetAmount, handleAddBudget, submitted }) {
-    
+
     const isNameValid = newBudgetName.trim().length > 0;
     const isAmountValid = parseFloat(newBudgetAmount) > 0;
-    
+
     return (
         <div className="bg-white border-2 border-dashed border-gray-300 rounded-xl p-6 mb-12 shadow-sm">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Create budget</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
+
                 {/* Budget Name Input */}
                 <div>
                     <label htmlFor="budgetName" className="block text-gray-700 text-sm font-semibold mb-1">Budget Name</label>
@@ -25,10 +25,10 @@ function CreateBudgetForm({ newBudgetName, setNewBudgetName, newBudgetAmount, se
                         `}
                     />
                     {submitted && !isNameValid && (
-                        <p className="text-red-500 text-xs mt-1">Please enter a budget name.</p>
+                        <p className="text-red-500 text-xs mt-1 font-semibold">Please enter a budget name.</p>
                     )}
                 </div>
-                
+
                 <div>
                     <label htmlFor="budgetAmount" className="block text-gray-700 text-sm font-semibold mb-1">Amount</label>
                     <input
@@ -42,7 +42,7 @@ function CreateBudgetForm({ newBudgetName, setNewBudgetName, newBudgetAmount, se
                         `}
                     />
                     {submitted && !isAmountValid && (
-                        <p className="text-red-500 text-xs mt-1">Please enter a positive budget amount.</p>
+                        <p className="text-red-500 text-xs mt-1 font-semibold">Please enter a positive budget amount.</p>
                     )}
                 </div>
             </div>

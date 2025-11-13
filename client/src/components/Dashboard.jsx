@@ -8,6 +8,9 @@ import CreateBudgetForm from './CreateBudgetForm';
 import BudgetCard from './BudgetCard';
 import BudgetDetails from './BudgetDetails';
 
+import StatementUpload from './StatementUpload.jsx';
+import ReviewTransactions from './ReviewTransactions.jsx';
+
 const getProgressBarWidth = (budget) => {
     if (budget.amount === 0) return 0;
     const width = (budget.spent / budget.amount) * 100;
@@ -17,6 +20,9 @@ const getProgressBarWidth = (budget) => {
 function Dashboard({ userName, handleLogout }) {
     const dispatch = useDispatch();
     const budgets = useSelector((state) => state.budgets.list);
+    
+    const parsedTransactions = useSelector((state) => state.budgets.parsedTransactions);
+    const parsingStatus = useSelector((state) => state.budgets.parsingStatus);
 
     const [viewingBudget, setViewingBudget] = useState(null);
     const [newBudgetName, setNewBudgetName] = useState('');
@@ -57,12 +63,72 @@ function Dashboard({ userName, handleLogout }) {
         }
     }, [budgets]);
 
+
+    let content;
+
+    if (parsedTransactions.length > 0 && parsingStatus === 'succeeded') {
+        content = (
+            <ReviewTransactions transactions={parsedTransactions} /> 
+        );
+    } else if (viewingBudget) {
+        content = (
+            <BudgetDetails
+                budget={viewingBudget}
+                setViewingBudget={setViewingBudget}
+                handleDeleteBudget={handleDeleteBudget}
+                formatCurrency={formatCurrency}
+                getProgressBarWidth={getProgressBarWidth}
+            />
+        );
+    } else {
+        content = (
+            <>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <StatementUpload /> 
+
+                    <CreateBudgetForm
+                        newBudgetName={newBudgetName}
+                        setNewBudgetName={setNewBudgetName}
+                        newBudgetAmount={newBudgetAmount}
+                        setNewBudgetAmount={setNewBudgetAmount}
+                        handleAddBudget={handleAddBudget}
+                        submitted={submitted}
+                    />
+
+                </div>
+
+                <div className="">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6 font-semibold">Existing Budgets</h3>
+                    {budgets.length === 0 ? (
+                        <div className="bg-white border border-gray-300 rounded-xl p-8 text-center shadow-inner">
+                            <p className="text-gray-500 font-semibold">No budgets yet. Create your first budget above!</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 font-semibold lg:grid-cols-3 gap-6">
+                            {budgets.map((budget) => (
+                                <BudgetCard
+                                    key={budget._id} 
+                                    budget={budget}
+                                    onDelete={handleDeleteBudget}
+                                    onViewDetails={() => setViewingBudget(budget)}
+                                    getProgressBarWidth={getProgressBarWidth}
+                                    formatCurrency={formatCurrency}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </>
+        );
+    }
+
     return (
         <div className="min-h-screen pt-20 relative">
             
             <div className="max-w-7xl mx-auto px-8 py-12 relative z-10">
                 
-                <h2 className="text-4xl font-bold text-gray-800 mb-8">
+                <h2 className="text-4xl font-bold text-gray-800 mb-8 font-semibold">
                     Welcome back, <span className="text-[#387ED1]">{userName}</span><span> !</span>
                 </h2>
 
@@ -72,51 +138,9 @@ function Dashboard({ userName, handleLogout }) {
                     totalExpenses={totalExpenses}
                     formatCurrency={formatCurrency}
                 />
+                
+                {content}
 
-                {!viewingBudget && (
-                    <>
-                        <CreateBudgetForm
-                            newBudgetName={newBudgetName}
-                            setNewBudgetName={setNewBudgetName}
-                            newBudgetAmount={newBudgetAmount}
-                            setNewBudgetAmount={setNewBudgetAmount}
-                            handleAddBudget={handleAddBudget}
-                            submitted={submitted}
-                        />
-
-                        <div className="mt-12">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-6">Existing Budgets</h3>
-                            {budgets.length === 0 ? (
-                                <div className="bg-white border border-gray-300 rounded-xl p-8 text-center shadow-inner">
-                                    <p className="text-gray-500 font-semibold">No budgets yet. Create your first budget above!</p>
-                                </div>
-                            ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 font-semibold lg:grid-cols-3 gap-6">
-                                    {budgets.map((budget) => (
-                                        <BudgetCard
-                                            key={budget._id} 
-                                            budget={budget}
-                                            onDelete={handleDeleteBudget}
-                                            onViewDetails={() => setViewingBudget(budget)}
-                                            getProgressBarWidth={getProgressBarWidth}
-                                            formatCurrency={formatCurrency}
-                                        />
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </>
-                )}
-
-                {viewingBudget && (
-                    <BudgetDetails
-                        budget={viewingBudget}
-                        setViewingBudget={setViewingBudget}
-                        handleDeleteBudget={handleDeleteBudget}
-                        formatCurrency={formatCurrency}
-                        getProgressBarWidth={getProgressBarWidth}
-                    />
-                )}
             </div>
 
             <div className="absolute left-0 right-0 -bottom-50 z-0 pointer-events-none">
