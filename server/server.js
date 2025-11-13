@@ -32,9 +32,11 @@ mongoose.connect(process.env.MONGO_URI)
 
 import authRoutes from './routes/auth.js';
 import budgetRoutes from './routes/budget.js';
+import statementRoutes from './routes/statement.js'
 
 app.use('/api/auth', authRoutes);
 app.use('/api/budgets', budgetRoutes);
+app.use('/api/statements', statementRoutes);
 
 const PORT = process.env.PORT || 5000;
 
