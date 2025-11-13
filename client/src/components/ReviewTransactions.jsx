@@ -72,7 +72,7 @@ function ReviewTransactions({ transactions }) {
                     className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-150 font-semibold text-sm flex items-center space-x-1 border border-gray-300 shadow-sm"
                 >
                     <X className="w-5 h-5" />
-                    <span className="font-semibold">Cancel Review</span>
+                    <span className="font-semibold cursor-pointer">Cancel Review</span>
                 </button>
             </h3>
 
@@ -134,7 +134,7 @@ function ReviewTransactions({ transactions }) {
                 <button
                     onClick={handleImportAll}
                     disabled={expensesToReviewCount === 0 || isSaving}
-                    className="px-8 py-3 rounded-lg font-semibold text-white bg-green-600 hover:bg-green-700 transition duration-200 disabled:bg-gray-400 flex items-center space-x-2"
+                    className="px-8 py-3 rounded-lg font-semibold text-white bg-green-600 hover:bg-green-700 transition duration-200 disabled:bg-gray-400 flex items-center space-x-2 cursor-pointer"
                 >
                     {isSaving ? (
                         <>

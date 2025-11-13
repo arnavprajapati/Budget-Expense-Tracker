@@ -41,7 +41,7 @@ function StatementUpload() {
             </h3>
 
             {parsingStatus === 'failed' && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 text-sm flex justify-between items-center font-semibold">
+                <div className="bg-red-100 cursor-pointer border border-red-400 text-red-700 px-4 py-2 rounded mb-4 text-sm flex justify-between items-center font-semibold">
                     <span>Error: {parsingError}</span>
                     <button onClick={handleClearError} className="text-red-700 hover:text-red-900 font-semibold">
                         <XCircle className="w-5 h-5" />
@@ -55,11 +55,12 @@ function StatementUpload() {
                 onChange={handleFileChange}
                 className="block w-full text-sm text-gray-900 font-semibold
                         file:mr-4 file:py-2 file:px-4
+                        cursor-pointer
                         file:rounded-full file:border-0
                         file:text-sm file:font-semibold
                         file:bg-[#387ED1] file:text-white
                         hover:file:bg-blue-600
-                        transition duration-200 cursor-pointer"
+                        transition duration-200 "
                 disabled={isUploading}
             />
 
@@ -72,7 +73,7 @@ function StatementUpload() {
             <button
                 onClick={handleUpload}
                 disabled={!selectedFile || isUploading}
-                className="mt-4 px-6 py-3 rounded-lg font-semibold text-white bg-[#387ED1] hover:bg-blue-600 transition duration-200 flex items-center space-x-2 disabled:bg-gray-400 cursor-pointer"
+                className="mt-4 px-6 py-3 rounded-lg  cursor-pointer font-semibold text-white bg-[#387ED1] hover:bg-blue-600 transition duration-200 flex items-center space-x-2 disabled:bg-gray-400"
             >
                 {isUploading ? (
                     <>
