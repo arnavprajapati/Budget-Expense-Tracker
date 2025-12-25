@@ -51,7 +51,7 @@ export async function analyzeStatement(fileBuffer) {
         `;
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-robotics-er-1.5-preview",
             contents: [
                 {
                     inlineData: {
